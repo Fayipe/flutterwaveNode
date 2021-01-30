@@ -115,7 +115,7 @@ export class AuthService {
                 break;
 
             default:
-                throw new AppError("Unknown condition to validate", null, 400);
+                throw new AppError("Unknown condition to validate.", null, 400);
         }
         throw new AppError("Could not validate rules.");
     }
