@@ -1,5 +1,5 @@
 {
-  "name": "mypaddi-api",
+  "name": "fltwve-test",
   "version": "1.0.0",
   "description": "Nodejs Backend Test",
   "main": "./dist/index.js",
