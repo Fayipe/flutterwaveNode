@@ -57,7 +57,7 @@ if (ENVIRONMENT !== "production") {
             format: combine(
                 format.colorize(),
                 logFormat,
-                ),
+            ),
         }),
     );
 }
