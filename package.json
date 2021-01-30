@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Nodejs Backend Test",
   "main": "./dist/index.js",
+  "engines": {
+    "node": "14.15.3"
+  },
   "scripts": {
     "post-install": "mkdir ./logs",
     "compile": "tsc",
