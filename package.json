@@ -21,9 +21,7 @@
     "post-install": "mkdir ./logs",
     "compile": "tsc",
     "start": "tsc && node ./dist",
-    "watch": "nodemon",
-    "tsc": "tsc",
-    "prod": "tsc && node ./build/app.js"
+    "watch": "nodemon"
   },
   "repository": {
     "type": "git",
