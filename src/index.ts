@@ -1,11 +1,12 @@
 import app from "./app";
 import { Server } from "http";
-import { PORT} from "./config";
+import { PORT } from "./config";
 import { logger } from "./utils/logger";
 
 
 const port = PORT || 3000;
 const httpServer = new Server(app);
+
 
 httpServer.listen(PORT, (err) => {
     if (err) {
