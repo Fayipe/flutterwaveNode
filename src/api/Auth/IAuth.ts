@@ -8,13 +8,11 @@ export interface IAuth extends IBaseInterface {
     };
     data: Data
 }
-
 export interface Rule {
     field: string;
     condition: string;
     condition_value: string;
 }
-
 export interface Data {
     name: string;
     crew: string;
@@ -22,7 +20,6 @@ export interface Data {
     position: string;
     missions: Missions
 }
-
 export interface Missions {
     count: number;
     successful: number;
