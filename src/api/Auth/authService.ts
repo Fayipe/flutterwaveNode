@@ -23,100 +23,110 @@ export class AuthService {
      * validateRules
      */
     public validateRules = async (data: any) => {
-        const condition = data.rule.condition;
-        let message: string;
-        let status: string;
-        let result;
-        let field = data.rule.field;
-        switch (condition) {
-            case "gte":
-                field = field.split('.');
-                let count = data.data[field[0]][field[1]];
-                if (count) {
-                    if (count >= data.rule.condition_value) {
-                        message = `field ${data.rule.field} successfully validated.`;
-                        status = "success";
-                        result = {
-                            data: {
-                                validation: {
-                                    error: false,
-                                    field: data.rule.field,
-                                    field_value: count,
-                                    condition: data.rule.condition,
-                                    condition_value: data.rule.condition_value
+        if (data.rule && data.data) {
+            const condition = data.rule.condition;
+            let message: string;
+            let status: string;
+            let result;
+            let field = data.rule.field;
+            switch (condition) {
+                case "gte":
+                    field = field.split('.');
+                    let count = data.data[field[0]][field[1]];
+                    if (count) {
+                        if (count >= data.rule.condition_value) {
+                            message = `field ${data.rule.field} successfully validated.`;
+                            status = "success";
+                            result = {
+                                data: {
+                                    validation: {
+                                        error: false,
+                                        field: data.rule.field,
+                                        field_value: count,
+                                        condition: data.rule.condition,
+                                        condition_value: data.rule.condition_value
+                                    }
                                 }
                             }
                         }
+                        return { result, message, status }
                     }
-                    return { result, message, status }
-                }
-                break;
+                    break;
 
-            case "eq":
-                if (data.data[field]) {
-                    if (data.data[field] == data.rule.condition_value) {
-                        message = `field ${field} successfully validated.`;
-                        status = "success";
-                        result = {
-                            data: {
-                                validation: {
-                                    error: false,
-                                    field: `${data.rule.field}`,
-                                    field_value: 'd',
-                                    condition: "eq",
-                                    condition_value: "a"
+                case "eq":
+                    if (data.data[field]) {
+                        if (data.data[field] == data.rule.condition_value) {
+                            message = `field ${field} successfully validated.`;
+                            status = "success";
+                            result = {
+                                data: {
+                                    validation: {
+                                        error: false,
+                                        field: `${data.rule.field}`,
+                                        field_value: 'd',
+                                        condition: "eq",
+                                        condition_value: "a"
+                                    }
                                 }
-                            }
-                        };
+                            };
+                        } else {
+                            message = `field ${field} failed validation.`;
+                            status = "error";
+                            result = {
+                                data: {
+                                    validation: {
+                                        error: true,
+                                        field: `${data.rule.field}`,
+                                        field_value: 'd',
+                                        condition: "eq",
+                                        condition_value: "a"
+                                    }
+                                }
+                            };
+                        }
+                        return { result, message, status };
+                    }
+                    break;
+
+                case "contains":
+                    if (data.data[5]) {
+                        if (data.data[5].includes(data.rule.condition_value)) {
+                            message = `field ${field} successfully validated.`;
+                            status = "success";
+                            result = {
+                                data: data.data
+                            };
+                        } else {
+                            message = `field ${field} failed validation.`;
+                            status = "error";
+                            result = {
+                                data: data.data
+                            };
+                        }
+
                     } else {
-                        message = `field ${field} failed validation.`;
+                        message = `field ${field} is missing from data.`;
                         status = "error";
                         result = {
-                            data: {
-                                validation: {
-                                    error: true,
-                                    field: `${data.rule.field}`,
-                                    field_value: 'd',
-                                    condition: "eq",
-                                    condition_value: "a"
-                                }
-                            }
+                            data: null
                         };
-                    }
-                    return { result, message, status };
-                }
-                break;
-
-            case "contains":
-                if (data.data[5]) {
-                    if (data.data[5].includes(data.rule.condition_value)) {
-                        message = `field ${field} successfully validated.`;
-                        status = "success";
-                        result = {
-                            data: data.data
-                        };
-                    } else {
-                        message = `field ${field} failed validation.`;
-                        status = "error";
-                        result = {
-                            data: data.data
-                        };
+                        return { result, message, status };
                     }
 
-                } else {
-                    message = `field ${field} is missing from data.`;
-                    status = "error";
-                    result = {
-                        data: null
-                    };
-                    return { result, message, status };
-                }
+                    break;
 
-                break;
-
-            default:
-                throw new AppError("Unknown condition to validate.", null, 400);
+                default:
+                    throw new AppError("Unknown condition to validate.", null, 400);
+            }
+            throw new AppError("Could not validate rules.");
+        } else {
+            let message = `field rule is missing from data.`;
+            status = "error";
+            let result = {
+                data: null
+            };
+            return { result, message, status };
         }
-        throw new AppError("Could not validate rules.");
+
     }
 }
