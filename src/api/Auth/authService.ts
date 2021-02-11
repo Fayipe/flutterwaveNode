@@ -120,8 +120,9 @@ export class AuthService {
             }
             throw new AppError("Could not validate rules.");
         } else {
-            let message = `field rule is missing from data.`;
-            status = "error";
+        console.log("yeyeye", data);
+            let message = `The rule and data fields are required.`;
+            let status = "error";
             let result = {
                 data: null
             };
